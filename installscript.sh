@@ -1,38 +1,45 @@
 #!/bin/bash
-
-function addUser {
+function 01_installNano {
+	yum install nano -y
+	clear
+	echo 'Nano wurde Installiert'
+	}
+	
+function 02_addUser {
 	echo '>> Create User...'
 	echo '>> Username: '
 	read username
+	echo '>> UserID: '
+	echo '>> ohne uid leer lassen...'
+	read uid
 	echo '>> Passwort:'
 	read password
-	adduser $username
-	echo '>> User <$username> erstellt'
+	if("$uid" == "")
+	then
+		adduser $username
+		echo '>> User <$username> erstellt'
+	else
+		adduser $username -u$uid
+	fi
 	echo "$password" |passwd $username --stdin
 	clear
 	echo 'Passwort für User <$username> erstellt (<$password>)'
 	}
 
-function updateLinux {
+function 03_updateLinux {
 	echo '>> Update Linux'
 	yum update
 	clear
 	echo 'Update durchgefuehrt...'
 	}
 	
-function updateKernel {
+function 04_updateKernel {
 	yum update kernel -y
 	clear
 	echo 'Kernel wurde aktuallisiert'
 	}
-
-function installNano {
-	yum install nano -y
-	clear
-	echo 'Nano wurde Installiert'
-	}
 	
-function createGrp {
+function 05_createGrp {
 	echo 'Grupenname eingeben:'
 	read grpname
 	echo 'Gruppen ID eingeben:'
@@ -48,7 +55,62 @@ function createGrp {
 	echo '>> Grupe <$grpname> mit der ID <$grpid> erstellt...'
 	}
 	
-run = true
-until(run);
-do
+#Schleife #########################
+while true; do
+echo "Was ist zutun...?"
+echo "1.  Nano installieren"
+echo "2.  User erstellen"
+echo "3.  linux Updaten (yum update)"
+echo "4.  kernel updaten"
+echo "5.  Gruppe erstellen"
+echo "6.  nothing"
+echo "7.  nothing"
+echo "8.  nothing"
+echo "9.  nothing"
+echo "10. nothing"
+echo
 
+echo -n "Enter your choice, or 0 for exit: "
+read choice
+echo
+
+case $choice in
+     1)
+     01_installNano
+     ;;
+     2)
+     02_addUser
+     ;;
+     3)
+     03_updateLinux
+     ;;
+     4)
+	 04_updateKernel
+     ;;
+     5)
+     05_createGrp
+     ;;
+     6)
+     echo 'nothing todo'
+     ;;
+     7)
+     echo 'nothing todo'
+     ;;
+     8)
+     echo 'nothing todo'
+     ;;
+     9)
+     echo 'nothing todo'
+     ;;
+     10)
+     echo 'nothing todo'
+     ;;
+     0)
+     echo "exit script"
+     break
+     ;;
+     *)
+     echo "That is not a valid choice, try a number from 0 to 10."
+     ;;
+esac  
+done
