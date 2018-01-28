@@ -65,11 +65,21 @@ function 06_addUsertoGrpWheel {
 	
 function 07_editCronetabWithNano {
 	nano /var/spool/cron/root
-	pause
+	}
+	
+function 08_createcrontab {
+	echo '* * * * * *'
+	echo 'Timecode und command: '
+	read command
+
+	echo "$command" >>/var/spool/cron/root
+	crontab -l
+	read -p 'ENTER fuer weiter'
 	}
 	
 #Schleife #########################
 while true; do
+clear
 echo "Was ist zutun...?"
 echo "1.  Nano installieren"
 echo "2.  User erstellen"
@@ -78,7 +88,7 @@ echo "4.  kernel updaten"
 echo "5.  Gruppe erstellen"
 echo "6.  User zu wheel hinzufuegen"
 echo "7.  Cronetab mit Nano bearbeiten"
-echo "8.  nothing"
+echo "8.  crontab erstellen"
 echo "9.  nothing"
 echo "10. nothing"
 echo
@@ -110,7 +120,7 @@ case $choice in
      07_editCronetabWithNano
      ;;
      8)
-     echo 'nothing todo'
+     08_createcrontab
      ;;
      9)
      echo 'nothing todo'
