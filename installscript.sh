@@ -23,7 +23,7 @@ function 02_addUser {
 	fi
 	echo "$password" |passwd $username --stdin
 	clear
-	echo 'Passwort für User <$username> erstellt (<$password>)'
+	echo 'Passwort fuer User <$username> erstellt (<$password>)'
 	}
 
 function 03_updateLinux {
@@ -55,6 +55,19 @@ function 05_createGrp {
 	echo '>> Grupe <$grpname> mit der ID <$grpid> erstellt...'
 	}
 	
+function 06_addUsertoGrpWheel {
+	echo 'Username:'
+	read username
+	usermod -aG wheel $username
+	clear
+	echo 'User <$username> zu wheel hinzugefuegt'
+	}
+	
+function 07_editCronetabWithNano {
+	nano /var/spool/cron/root
+	pause
+	}
+	
 #Schleife #########################
 while true; do
 echo "Was ist zutun...?"
@@ -63,8 +76,8 @@ echo "2.  User erstellen"
 echo "3.  linux Updaten (yum update)"
 echo "4.  kernel updaten"
 echo "5.  Gruppe erstellen"
-echo "6.  nothing"
-echo "7.  nothing"
+echo "6.  User zu wheel hinzufuegen"
+echo "7.  Cronetab mit Nano bearbeiten"
 echo "8.  nothing"
 echo "9.  nothing"
 echo "10. nothing"
@@ -91,10 +104,10 @@ case $choice in
      05_createGrp
      ;;
      6)
-     echo 'nothing todo'
+     06_addUsertoGrpWheel
      ;;
      7)
-     echo 'nothing todo'
+     07_editCronetabWithNano
      ;;
      8)
      echo 'nothing todo'
